@@ -1,0 +1,52 @@
+﻿@page "/fetchdata"
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using BlazorHearthstone
+@inject HttpClient Http
+
+<h1>Cards</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<Filters />
+
+@if (cards == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Set</th>
+                <th>Type </th>
+                <th>Class</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var card in cards)
+            {
+                <tr>
+                    <td>@card.name</td>
+                    <td>@card.cardSet</td>
+                    <td>@card.type</td>
+                    <td>@card.playerClass</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Card[] cards;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Http.DefaultRequestHeaders.Add("x-rapidapi-host", "omgvamp-hearthstone-v1.p.rapidapi.com");
+        Http.DefaultRequestHeaders.Add("x-rapidapi-key", "bf573e4c20msha3623090d8c9576p131344jsne09e72771c1f");
+
+        cards = await Http.GetJsonAsync<Card[]>("https://omgvamp-hearthstone-v1.p.rapidapi.com/cards/classes/Hunter");
+    }
+}
