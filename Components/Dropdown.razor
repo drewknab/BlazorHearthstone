@@ -1,0 +1,24 @@
+﻿@using System.Collections.Generic
+
+@if (data == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <label>@title</label>
+    <select class="form-control form-control-sm">
+        @foreach (var option in data)
+        {
+            <option value=@option>@option</option>
+        }
+    </select>
+}
+
+@code {
+    [Parameter]
+    public string[] data { get; set; }
+
+    [Parameter]
+    public string title { get; set; }
+}
