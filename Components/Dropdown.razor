@@ -7,7 +7,7 @@
 else
 {
     <label>@title</label>
-    <select class="form-control form-control-sm">
+    <select @onchange="OnOptionChange" class="form-control form-control-sm">
         @foreach (var option in data)
         {
             <option value=@option>@option</option>
@@ -21,4 +21,16 @@ else
 
     [Parameter]
     public string title { get; set; }
+
+    [Parameter]
+    public string Option { get; set; }
+
+    [Parameter]
+    public EventCallback<string> optionChanged { get; set; }
+
+    private Task OnOptionChange(ChangeEventArgs e)
+    {
+        Option = e.Value.ToString();
+        return optionChanged.InvokeAsync(Option);
+    }
 }

@@ -11,7 +11,7 @@ else
 {
     <div class="form-row">
         <div class="form-group col-md-4">
-            <Dropdown data=@information.classes title="Class" />
+            <Dropdown data=@information.classes @bind-Option="_class" title="Class" />
         </div>
         <div class="form-group col-md-4">
             <Dropdown data=@information.standard title="Standard" />
@@ -31,10 +31,16 @@ else
         <div class="form-group col-md-4">
             <Dropdown data=@information.races title="Race" />
         </div>
+        <div class="form-group col-md-4">
+            <button class="btn btn-primary" @onclick="@(() => OnClick.InvokeAsync(_class))">Search</button>
+        </div>
     </div>
 }
 
 @code {
+    [Parameter]
+    public EventCallback<string> OnClick { get; set; }
+    private string _class;
     private Information information;
 
     protected override async Task OnInitializedAsync()
